@@ -9,7 +9,16 @@ const suscriber = new mongoose.Schema({
         type:Number
     },
     country:{
-        type:String
+        type:String,
+        validate(value){
+            if(!["india","usa","pakistan"].includes(value))
+            {
+                throw new Error("this is not a country");
+            }
+            else{
+
+            }
+        }
     },
 });
 
