@@ -56,18 +56,18 @@ app.get("/users",async (req, res) => {
 
 app.post('/signup',async(req,res)=>
 {
-    // console.log(req.body);
-    const user = new User(req.body);
+    //  console.log(req.body);
+    const user =new User(req.body);
 
     try{
         await user.save();
     res.send("User Created Successfully");
     }
     catch(err){
-        res.status(400).send("User Error");
+        res.status(400).send("User Error"+ err.message);
     }
     
-})    
+});  
 
 app.post('/suscriber',async (req,res)=>
 {
@@ -100,12 +100,37 @@ app.patch("/suscriber",async (req, res)=>
         }
     });
 
-app.patch("/user",async (req, res)=>
+app.patch("/user/:userid",async (req, res)=>
 {
-    const userid = req.body.userid;
+    // const userid = req.body.userid;
+    const userid = req.params?.userid;
     const data = req.body;
 
     try{
+
+        const AllOWED_UPDATES = [
+            "PhotoUrl",
+            "Gender",
+            "Age",
+            "Skills",
+            "About"
+        ];
+
+        const isupdatedallowed = Object.keys(data).every((k)=>
+        AllOWED_UPDATES.includes(k)
+    );
+    if(!isupdatedallowed)
+    {
+        throw new Error("Updates not Allowed")
+    }
+    if(data?.Skills.length > 10)
+    {
+        throw new Error("Skills Cannot be More Than 10")
+    }
+
+   
+
+
     const user = await User.findByIdAndUpdate({_id:userid },data,{
         returnDocument : "after",
         runValidators:true
@@ -113,7 +138,7 @@ app.patch("/user",async (req, res)=>
     console.log(user)
     res.send("user Updated Successfully");
     }catch(err){
-        res.status(400).send(err.message);
+        res.status(400).send( err.message);
     }
 });
 
