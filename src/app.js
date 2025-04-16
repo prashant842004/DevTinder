@@ -3,7 +3,8 @@ const connectdb = require("./config/Database");
 const app = express();
 const User = require("./Model/User");
 const subscriber = require("./Model/suscriber");
-
+const {validateSignUpData} = require("./utils/Validations");
+const bcrypt = require("bcrypt")
 app.use(express.json());
 
 app.get("/feed",async (req, res) => {
@@ -56,11 +57,28 @@ app.get("/users",async (req, res) => {
 
 app.post('/signup',async(req,res)=>
 {
-    //  console.log(req.body);
-    const user =new User(req.body);
+ try{
+    // Validations of Data
+    validateSignUpData(req);
 
-    try{
-        await user.save();
+    const {FirstName,LastName,Email,Password} = req.body;
+    // Encrypt the Password
+
+    const PasswordHash = await bcrypt.hash(Password,10);
+    console.log(PasswordHash);
+
+    // Creating new Instance of the user Model
+    //  console.log(req.body);
+    // const user =new User(req.body);
+
+    const user =new User({
+        FirstName,
+        LastName,
+        Email,
+        Password: PasswordHash
+    });
+    
+    await user.save();
     res.send("User Created Successfully");
     }
     catch(err){
@@ -68,6 +86,33 @@ app.post('/signup',async(req,res)=>
     }
     
 });  
+
+app.post("/login",async (req,res)=>
+{
+    try{
+
+        const { Email , Password} = req.body;
+
+        const user = await User.findOne({Email:Email});
+
+        if(!user)
+        {
+            throw new Error("Invalid Credentials");
+        }
+        const IsPasswordValid = await bcrypt.compare(Password,user.Password);
+
+        if(IsPasswordValid)
+        {
+            res.send("Login Successfully !! ");
+        }
+        else{
+            throw new Error("Invalid Credentials");
+        }
+    }
+    catch(err){
+        res.status(400).send(" Error : " + err.message);
+    }
+})
 
 app.post('/suscriber',async (req,res)=>
 {
