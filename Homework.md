@@ -30,4 +30,13 @@
 - UserAUth middleware.
 - Add the userAuth middleware in Profile API and a new ConnectionRequest API.
 - Set the Expiry of JWT token and cookies to 7 Days.
+- Create UserSchema Methods to getJWT();
+- Create UserSchema Methods to  comparePassword(PasswordInputByUser).
 
+- Explore Tinder APIs.
+- Create a List of All Apis you can think of an DEV Tinder
+- Groups Multiple Routes Under Respective Routers.
+- Read Documenatation  For Express. Router 
+- Create Routers Folder for managing Auth , Profile , And Request Router
+- Create AuthRouter, ProfileRouter ,RequestRouter
+- Import this routers un app.js
