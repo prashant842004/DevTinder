@@ -40,3 +40,9 @@
 - Create Routers Folder for managing Auth , Profile , And Request Router
 - Create AuthRouter, ProfileRouter ,RequestRouter
 - Import this routers un app.js
+- Create POST/logout API 
+- Create PATCH /profile/edit 
+- Create patch/profile /password API  => forgat password API
+- Make you validate all data in every POST ,PATCH APIS
+
+
