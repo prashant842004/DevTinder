@@ -29,15 +29,15 @@ app.use("/",RequestRouter);
 
 // app.delete("/user",async (req, res) => { 
     
-    // try{
-    //     const userid = req.body.userid;
-    //     await User.findByIdAndDelete(_id = userid );
+//     try{
+//         const userid = req.body.userid;
+//         await User.findByIdAndDelete(_id = userid );
 
-    // }
-    // catch(err)
-    // {
-    //     res.status(500).send("Server Error");
-    // }
+//     }
+//     catch(err)
+//     {
+//         res.status(500).send("Server Error");
+//     }
 // })
 
 // app.get("/users",async (req, res) => {
