@@ -17,8 +17,8 @@
 - POST /request/review/rejected/:requestID
 
 ## User Router
+- GET /user/requests/received
 - GET /user/connections
-- GET /user/requests
 - GET /user/feed - Gets you the Profiles of other users on platform
 
 

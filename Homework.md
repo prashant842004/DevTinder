@@ -57,3 +57,13 @@
 - What is the Advantage and disadavantage of Creating ? 
 - read this article about compound indexes -  - https://www.mongodb.com/docs/manual/core/indexes/index-types/index-compound/
 - ALWAYS THINK ABOUT CORNER CASES
+
+
+-Write a code with proper Validations for Post /request/review/:status/:requestId
+- Thought process  - post  vs Or
+- Read about the red and populate  https://mongoosejs.com/docs/populate.html
+- Create Get /user/requests/received  with all the checks 
+- Create Get /user/connections
+
+- Logic for Get /feed APIs
+- Explore the $nin , $in and other query operators

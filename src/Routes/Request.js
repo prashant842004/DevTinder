@@ -3,6 +3,7 @@ const RequestRouter = express.Router();
 const {UserAuth} = require("../Middleware/Auth");
 const ConnectionRequest = require("../Model/ConnectionRequest");
 const User = require("../Model/User");
+const USER_SAFE_DATA = "FirstName LastName";
 
 
 
@@ -62,7 +63,56 @@ RequestRouter.post("/request/send/:status/:toUserId",UserAuth,async (req,res)=>
    
 });
 
+RequestRouter.post("/request/review/:status/:requestId",
+    UserAuth,
+    async (req,res) =>
+    {
+         try{
+            const loggedInUser = req.user;
+            const {status,requestId} = req.params;
 
+            const AllowedStatus = ["accepted","rejected"];
+            
+            if(!AllowedStatus.includes(status))
+            {
+                return res.status(400).json({
+                    message:"Status Not Allowed"
+                });
+            }
+            const connectionRequest = await ConnectionRequest.findOne({
+                _id : requestId,
+                toUserId : loggedInUser,
+                status: "interested",
+            }).populate("fromUserId",USER_SAFE_DATA)
+            // Akshay  => Elon
+            // loggedInuser === to UserId
+            // Status  = interested
+            // request id should be valid 
+
+            if(!connectionRequest)
+            {
+                return res.status(404)
+            .json({
+                message: "Connection Request not Found"
+            });   
+           }
+           connectionRequest.status = status;
+
+           const data = await connectionRequest.save();
+
+           res.json({
+            // message : "Connection REquest " + status , data 
+            message : `${loggedInUser.FirstName} is ${status} Connection Request `,
+            data
+           });
+         }
+         catch(err)
+         {
+             res.status(400).send("Err"+err.message);
+         }
+    }
+    
+);
 
 
 RequestRouter.post("/SendConnectionRequest",UserAuth,(req,res)=>
@@ -73,9 +123,7 @@ RequestRouter.post("/SendConnectionRequest",UserAuth,(req,res)=>
         console.log("Connection request is sent");
     
         // res.send("connection sent Successfully");
-    });  
-
-
-
-    module.exports =  RequestRouter;
+    });                               
+    
+module.exports =  RequestRouter;
     

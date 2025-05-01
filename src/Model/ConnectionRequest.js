@@ -1,8 +1,9 @@
 const mongoose = require("mongoose");
 
 const ConnectionRequestSchema =  new mongoose.Schema({
-    fromUserId :{
+    fromUserId :  {
         type: mongoose.Schema.Types.ObjectId,
+        ref : "User", // reference to the user Collection
         required : true,
     },
     toUserId:{
@@ -34,6 +35,7 @@ ConnectionRequestSchema.pre("save" , function (next)
     {
         throw new Error("Cannot Send Connection Request to YourSelf ..!!!!");
     }
+    
     next();
 });
 
