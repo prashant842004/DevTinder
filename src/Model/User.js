@@ -60,7 +60,8 @@ const UserSchema = new mongoose.Schema({
     },
     PhotoUrl:
     {
-        type:String,   
+        type:String,  
+        default:"https://th.bing.com/th/id/OIP.Wobts7ykZDoUjYMnEHMefAHaHa?w=163&h=150&c=6&o=7&cb=iwp1&dpr=1.5&pid=1.7&rm=3", 
         validate(value){
             if(!validator.isURL(value)){
                 throw new Error("Invalid Photo Url  " + value);

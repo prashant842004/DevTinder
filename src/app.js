@@ -1,9 +1,14 @@
 const express = require("express");
 const connectdb = require("./config/Database");
 const app = express();
-
 // const subscriber = require("./Model/suscriber");
 const cookieparser = require("cookie-parser");
+const cors = require("cors");
+
+app.use(cors({
+    origin : "http://localhost:5173",
+    credentials: true,
+}));
 app.use(express.json());
 app.use(cookieparser());
 
@@ -135,7 +140,7 @@ app.use("/",UserRouter);
 connectdb().then(()=>
     {
         console.log("Database Connected Successfully");
-        app.listen(8090 ,()=>
+        app.listen(8080 ,()=>
             {
                 console.log("Your Server is Ready..... ");
             });
